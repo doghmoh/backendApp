@@ -11,7 +11,9 @@ app.set('views', __dirname + '/views'); // Set the directory for your views
 const fetchWebhook = require('./fetchWebhook');
 const pushUltrmsg = require('./pushUltramsg');
 
-
+app.get('/' , (req,res) => {
+  res.json({'message' : 'ok'})
+})
 app.post('/api/v1/test', (req, res) => {
       res.json({'message': 'ok'})
 })
