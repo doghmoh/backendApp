@@ -4,7 +4,7 @@ app.use(express.json()); // For JSON data
 app.use(express.urlencoded({ extended: true })); // For URL-encoded data
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-
+const axios = require('axios');
 app.use(session({
   secret: '0000000000x', // Replace with your own secret key
   resave: false,
@@ -21,17 +21,43 @@ app.set('views', __dirname + '/views'); // Set the directory for your views
 const fetchWebhook = require('./fetchWebhook');
 const pushUltrmsg = require('./pushUltramsg');
 
-app.get('/', (req, res) => {
-  res.json({ 'message': 'ok' })
-})
+// app.get('/', async (req, res) => {
+//   const data = {
+//     message: 'Hello, world!',
+//     sender: 'Your Name'
+//   };
+  
+//   fetch('http://localhost:8080/api/v1/notification', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify(data)
+//   })
+//     .then(response => {
+//       res.json({'m' : "ok2121"})
+//     })
+//     .catch(error => {
+//       res.json({'m' : error})
+//     });
+// });
+
 app.get('/api/v1/test', (req, res) => {
   res.json({ 'message': 'ok' })
 })
-app.post('/api/v1/notification', async (req, res) => {
-  req.session.savedRequest = req
+app.post('/api/v1/notification', (req, res) => {
+  // Save the entire request body in the session
+  req.session.requestData = req.body;
 
-  res.json({ message: 'Data saved in the session', sessionData: req.session });
+  // Access the saved request data from the session
+  const requestData = req.session.requestData;
+
+  // Display the saved request data
+  console.log(requestData);
+
+  res.json({ message: 'Request data saved in the session', requestData });
 });
+
 app.get('/cookies', (req, res) => {
   const jsonCookieValue = req.cookies.receivedData;
   if (jsonCookieValue) {
