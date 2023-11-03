@@ -30,7 +30,7 @@ app.get('/api/v1/test', (req, res) => {
 app.post('/api/v1/notification', async (req, res) => {
   req.session.savedRequest = req
 
-  res.send('Data: ', req.session.savedRequest);
+  res.json({ message: 'Data saved in the session', sessionData: req.session });
 });
 app.get('/cookies', (req, res) => {
   const jsonCookieValue = req.cookies.receivedData;
