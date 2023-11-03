@@ -3,7 +3,13 @@ const app = express();
 app.use(express.json()); // For JSON data
 app.use(express.urlencoded({ extended: true })); // For URL-encoded data
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
+app.use(session({
+  secret: '0000000000x', // Replace with your own secret key
+  resave: false,
+  saveUninitialized: true,
+}));
 // Use the cookie-parser middleware
 app.use(cookieParser());
 const cors = require('cors');
@@ -15,27 +21,16 @@ app.set('views', __dirname + '/views'); // Set the directory for your views
 const fetchWebhook = require('./fetchWebhook');
 const pushUltrmsg = require('./pushUltramsg');
 
-app.get('/' , (req,res) => {
-  res.json({'message' : 'ok'})
+app.get('/', (req, res) => {
+  res.json({ 'message': 'ok' })
 })
 app.get('/api/v1/test', (req, res) => {
-      res.json({'message': 'ok'})
+  res.json({ 'message': 'ok' })
 })
 app.post('/api/v1/notification', async (req, res) => {
+  req.session.savedRequest = req
 
-  const receivedData = req.body;
-  console.log(receivedData)
-
-  try {
-   // const ultramsgResponse = await pushUltrmsg(receivedData.utlramsgURL, receivedData.ultramsgKEY, receivedData.destination, receivedData);
-    // Handle responses as needed
-    res.cookie('receivedData', JSON.stringify(receivedData));
-    res.json({ message: 'success', receivedData });
-
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
+  res.send('Data: ', req.session.savedRequest);
 });
 app.get('/cookies', (req, res) => {
   const jsonCookieValue = req.cookies.receivedData;
@@ -66,4 +61,4 @@ app.use(function (err, req, res, next) {
 module.exports = app;
 
 
- // const webhookData = await fetchWebhook(receivedData.webhookURL, receivedData.webhookKEY);
+// const webhookData = await fetchWebhook(receivedData.webhookURL, receivedData.webhookKEY);
