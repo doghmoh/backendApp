@@ -21,10 +21,10 @@ app.post('/api/v1/notification', async (req, res) => {
   console.log(receivedData)
 
   try {
-    const ultramsgResponse = await pushUltrmsg(receivedData.utlramsgURL, receivedData.ultramsgKEY, receivedData.destination, webhookData);
+    const ultramsgResponse = await pushUltrmsg(receivedData.utlramsgURL, receivedData.ultramsgKEY, receivedData.destination, receivedData);
 
     // Handle responses as needed
-    res.json({ message: 'success', webhookData, ultramsgResponse });
+    res.json({ message: 'success', receivedData, ultramsgResponse });
 
   } catch (error) {
     console.error(error);
