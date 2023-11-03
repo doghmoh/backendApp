@@ -2,6 +2,10 @@ const express = require('express');
 const app = express();
 app.use(express.json()); // For JSON data
 app.use(express.urlencoded({ extended: true })); // For URL-encoded data
+const cookieParser = require('cookie-parser');
+
+// Use the cookie-parser middleware
+app.use(cookieParser());
 const cors = require('cors');
 app.use(cors());
 app.set('view engine', 'pug'); // Set the view engine
@@ -25,11 +29,21 @@ app.get('/api/v1/notification', async (req, res) => {
   try {
    // const ultramsgResponse = await pushUltrmsg(receivedData.utlramsgURL, receivedData.ultramsgKEY, receivedData.destination, receivedData);
     // Handle responses as needed
+    res.cookie('receivedData', JSON.stringify(receivedData));
     res.json({ message: 'success', receivedData });
 
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+app.get('/cookies', (req, res) => {
+  const jsonCookieValue = req.cookies.receivedData;
+  if (jsonCookieValue) {
+    const receivedData = JSON.parse(jsonCookieValue);
+    res.json(receivedData);
+  } else {
+    res.status(404).json({ message: 'No received data found in the cookie' });
   }
 });
 
