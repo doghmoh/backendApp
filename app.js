@@ -12,16 +12,15 @@ const fetchWebhook = require('./fetchWebhook');
 const pushUltrmsg = require('./pushUltramsg');
 
 
-
-app.post('/1', async (req, res) => {
+app.post('/api/v1/test', (req, res) => {
+      res.json({'message': 'ok'})
+})
+app.post('/api/v1/notification', async (req, res) => {
 
   const receivedData = req.body;
   console.log(receivedData)
+
   try {
-    
-    console.log('Received data:', receivedData);
-    
-    const webhookData = await fetchWebhook(receivedData.webhookURL, receivedData.webhookKEY);
     const ultramsgResponse = await pushUltrmsg(receivedData.utlramsgURL, receivedData.ultramsgKEY, receivedData.destination, webhookData);
 
     // Handle responses as needed
@@ -33,17 +32,10 @@ app.post('/1', async (req, res) => {
   }
 });
 
-
-
-
-
 const port = 8080;
 app.listen(port, () => {
   console.log(`Webhook server is running on port ${port}`);
 });
-
-
-
 
 // error handler
 app.use(function (err, req, res, next) {
@@ -57,3 +49,6 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
+
+
+ // const webhookData = await fetchWebhook(receivedData.webhookURL, receivedData.webhookKEY);
