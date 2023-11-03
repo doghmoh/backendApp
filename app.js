@@ -14,10 +14,10 @@ const pushUltrmsg = require('./pushUltramsg');
 app.get('/' , (req,res) => {
   res.json({'message' : 'ok'})
 })
-app.post('/api/v1/test', (req, res) => {
+app.get('/api/v1/test', (req, res) => {
       res.json({'message': 'ok'})
 })
-app.post('/api/v1/notification', async (req, res) => {
+app.get('/api/v1/notification', async (req, res) => {
 
   const receivedData = req.body;
   console.log(receivedData)
