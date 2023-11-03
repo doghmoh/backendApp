@@ -21,7 +21,7 @@ app.get('/' , (req,res) => {
 app.get('/api/v1/test', (req, res) => {
       res.json({'message': 'ok'})
 })
-app.get('/api/v1/notification', async (req, res) => {
+app.post('/api/v1/notification', async (req, res) => {
 
   const receivedData = req.body;
   console.log(receivedData)
