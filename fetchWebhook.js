@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-async function fetchWebhook(webhookURL, webhookKEY) {
+async function fetchWebhook() {
   console.log('lunch wobhookfetching ')
   const options = {
       headers: {

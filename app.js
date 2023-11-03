@@ -24,7 +24,6 @@ app.get('/api/v1/notification', async (req, res) => {
 
   try {
    // const ultramsgResponse = await pushUltrmsg(receivedData.utlramsgURL, receivedData.ultramsgKEY, receivedData.destination, receivedData);
-
     // Handle responses as needed
     res.json({ message: 'success', receivedData });
 
