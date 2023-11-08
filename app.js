@@ -47,15 +47,15 @@ app.get('/api/v1/test', (req, res) => {
 })
 app.post('/api/v1/notification', (req, res) => {
   // Save the entire request body in the session
-  req.session.requestData = req.body;
-
+  //req.session.requestData = req.body;
+  const requestInfo = JSON.stringify(req);
   // Access the saved request data from the session
-  const requestData = req.session.requestData;
+ // const requestData = req.session.requestData;
 
   // Display the saved request data
-  console.log(requestData);
+  console.log(requestInfo);
 
-  res.json({ message: 'Request data saved in the session', requestData });
+  res.json({ message: 'Request data saved in the session', requestInfo });
 });
 
 app.get('/cookies', (req, res) => {
